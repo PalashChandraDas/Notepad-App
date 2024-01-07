@@ -13,6 +13,7 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
+
         ChangeNotifierProvider(create: (context) => NavProvider(),),
         ChangeNotifierProvider(create: (context) => NoteProvider(),),
         ChangeNotifierProvider(create: (context) => CreateNoteProvider(),),

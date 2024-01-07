@@ -59,9 +59,9 @@ class _EditNoteViewState extends State<EditNoteView> {
                 onPressed: () => value.showOptions(context: context),
               );
             },),
-            KTitleField(controller: createNoteProvider.titleCtrl),
+            KTitleField(controller: TextEditingController(text: widget.note.title)),
             AppConstant.kDefaultGap,
-            KDescriptionField(controller: createNoteProvider.descCtrl),
+            KDescriptionField(controller: TextEditingController(text: widget.note.description)),
             const SizedBox(
               height: 50,
             ),
