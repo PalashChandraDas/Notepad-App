@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:notepad/app/modules/note/provider/note_provider.dart';
 import 'package:notepad/app/routes/custom_router.dart';
 import 'package:notepad/utils/custom_color.dart';
+import 'package:notepad/utils/custom_string.dart';
 import 'package:provider/provider.dart';
 
+import '../../editNote/view/edit_note_view.dart';
 import '../../note_detail/view/note_detail_view.dart';
 
 
@@ -16,7 +18,7 @@ class NoteView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Consumer<NoteProvider>(builder: (context, value, child) {
-      return value.allNoteList.isEmpty?const Center(child: Text('Empty Note'),):
+      return value.allNoteList.isEmpty?const Center(child: Text(CustomString.emptyNote),):
       SafeArea(
         child: ListView.builder(
           padding: const EdgeInsets.all(15),
@@ -38,6 +40,12 @@ class NoteView extends StatelessWidget {
                 leading: Image.file(note.image),
                 title: Text(note.title),
                 subtitle: Text(note.description),
+                trailing: IconButton(
+                  onPressed: () {
+                    CustomRouter.push(context: context, page: EditNoteView(index: i,));
+                  },
+                  icon: const Icon(Icons.edit),
+                ),
               ),
             );
           },),

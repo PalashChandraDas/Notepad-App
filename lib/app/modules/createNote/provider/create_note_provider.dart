@@ -19,10 +19,10 @@ class CreateNoteProvider extends ChangeNotifier {
   final picker = ImagePicker();
   bool isUploaded = false;
 
-  clearAllValue() {
+  clearAllController() {
     titleCtrl.clear();
     descCtrl.clear();
-    deleteImage();
+    // deleteImage();
   }
 
 //Image Picker function to get image from gallery
@@ -99,7 +99,9 @@ class CreateNoteProvider extends ChangeNotifier {
               TextButton(
                   onPressed: () {
                     CustomRouter.pushReplacement(context: context, page: const NavView());
-                    clearAllValue();
+                    /////called method....//////
+                    clearAllController();
+                    createNoteProvider.deleteImage();
                   },
                   child: Text(CustomString.noTxt)),
               TextButton(
@@ -107,7 +109,9 @@ class CreateNoteProvider extends ChangeNotifier {
                     if(createNoteProvider.isUploaded == true){
                       context.read<DraftProvider>().addDraftFunc(context: context);
                       CustomRouter.pushReplacement(context: context, page: const NavView());
-                      clearAllValue();
+                      /////called method....//////
+                      clearAllController();
+                      createNoteProvider.deleteImage();
                     } else{
                       CustomRouter.pop(context: context);
                       AppConstant.customToast(context: context, message: CustomString.toastButtonAction);

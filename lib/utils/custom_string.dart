@@ -1,5 +1,7 @@
 class CustomString{
   static const String appName = 'Todo';
+  static const String emptyNote = 'Empty Note';
+  static const String emptyDraft = 'Empty Draft';
   static const String createNoteTitle = 'Create Note';
   static const String titleHint = 'Title';
   static const String descriptionHint = 'Note something down';
@@ -18,7 +20,7 @@ class CustomString{
   static String detailDesc = 'Description';
 
   //draft
-  static String editDraftTitle = 'Edit Draft';
+  static String editNoteTitle = 'Edit Note';
 
   //error
   static String imgErrorTxt = 'Image error !!!';

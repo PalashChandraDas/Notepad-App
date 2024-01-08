@@ -30,14 +30,53 @@ class NoteProvider extends ChangeNotifier {
           description: createNoteProvider.descCtrl.text,
           image: File(createNoteProvider.uploadedImg!.path)
       ));
+
       CustomRouter.pop(context: context);
-      createNoteProvider.clearAllValue();
+      ///****Method****////////
+      createNoteProvider.clearAllController();
+      createNoteProvider.deleteImage();
     } else{
       log('empty+++++++');
       AppConstant.customToast(context: context, message: CustomString.toastButtonAction);
     }
 
   }
+
+  void editNote({required NoteModel noteModel, required int index}){
+    allNoteList[index] = noteModel;
+    log('EditNot===> length: ${allNoteList.toString()}');
+    notifyListeners();
+  }
+
+
+  void editNoteFunc({required BuildContext context, required int index}) {
+    final createNoteProvider = context.read<CreateNoteProvider>();
+
+    if(createNoteProvider.isUploaded == true){
+      //add note in list
+      editNote(noteModel: NoteModel(
+          title: createNoteProvider.titleCtrl.text,
+          description: createNoteProvider.descCtrl.text,
+          image: File(createNoteProvider.uploadedImg!.path.toString())),
+          index: index);
+      CustomRouter.pop(context: context);
+      // createNoteProvider.clearAllController();
+    } else{
+      log('empty+++++++');
+      AppConstant.customToast(context: context, message: CustomString.toastButtonAction);
+    }
+
+  }
+
+
+
+  void deleteNote(int index){
+    allNoteList.removeAt(index);
+
+    log('d length===>${allNoteList.length.toString()}');
+    notifyListeners();
+  }
+
 
 
 

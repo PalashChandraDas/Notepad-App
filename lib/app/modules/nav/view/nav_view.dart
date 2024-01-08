@@ -18,7 +18,7 @@ class NavView extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          CustomRouter.push(context: context, page: CreateNoteView());
+          CustomRouter.push(context: context, page: const CreateNoteView());
         },
         child: const Icon(Icons.add),
       ),
