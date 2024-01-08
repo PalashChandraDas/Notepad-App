@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../utils/custom_color.dart';
 import '../utils/custom_string.dart';
@@ -13,15 +14,15 @@ class KTitleField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       maxLines: 1,
-      autofocus: true,
+      // autofocus: true,
       textInputAction: TextInputAction.next,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         border: InputBorder.none,
         hintText: CustomString.titleHint,
         hintStyle: TextStyle(
             fontWeight: FontWeight.w500,
             color: CustomColor.textHintColor,
-            fontSize: 20),
+            fontSize: 20.sp),
       ),
     );
   }

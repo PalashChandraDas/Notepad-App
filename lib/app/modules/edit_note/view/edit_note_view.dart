@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:notepad/app/modules/createNote/widgets/save_button.dart';
-import 'package:notepad/app/modules/createNote/widgets/select_gallery_widget.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:notepad/widgets/save_button.dart';
 import 'package:notepad/app/modules/draft/model/draft_model.dart';
 import 'package:notepad/app/modules/note/provider/note_provider.dart';
 import 'package:notepad/utils/app_constant.dart';
@@ -9,6 +9,10 @@ import 'package:notepad/widgets/k_description_field.dart';
 import 'package:notepad/widgets/k_title_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../utils/custom_color.dart';
+import '../../../../widgets/delete_image_button.dart';
+import '../../../../widgets/k_image_file.dart';
+import '../../../../widgets/select_img_button.dart';
 import '../../createNote/provider/create_note_provider.dart';
 
 class EditNoteView extends StatefulWidget {
@@ -26,50 +30,73 @@ class _EditNoteViewState extends State<EditNoteView> {
 
   @override
   Widget build(BuildContext context) {
-    // final createNoteProvider = Provider.of<CreateNoteProvider>(context, listen: false);
-    final createNoteProvider = context.read<CreateNoteProvider>();
     final noteProvider = context.read<NoteProvider>();
 
 
     return Scaffold(
       appBar: AppBar(
         title: Text(CustomString.editDraftTitle),
+        actions: [
+          SaveButton(
+            onPressed: () {
+              noteProvider.addNoteFunc(context: context);
+            },
+          ),
+        ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.w),
         child: Column(
           children: [
-
+            //UPLOADED IMAGE
             Consumer<CreateNoteProvider>(
               builder: (context, value, child) {
-                return value.uploadedImg == null ? const Text(CustomString.selectTxt):SizedBox(
-                    height: 200,
-                    child: Image.file(widget.note.image)
+                return value.uploadedImg == null
+                    ? SelectImageButton(
+                  isIconSize: true,
+                  isChangeColor: value.isUploaded,
+                  onPressed: () => value.showOptions(context: context),
+                )
+                    : KImageFile(
+                  imageFile: widget.note.image,
                 );
               },
             ),
-            Consumer<CreateNoteProvider>(builder: (context, value, child) {
-              return value.uploadedImg == null? const Text('')
-                  :Text(widget.note.image.path.split('/').last.toString());
-            },),
-            const SizedBox(height: 20,),
-            Consumer<CreateNoteProvider>(builder: (context, value, child) {
-              return SelectGalleryWidget(
-                isChangeColor: value.isUploaded,
-                onPressed: () => value.showOptions(context: context),
-              );
-            },),
+            //IMAGE PATH
+            Consumer<CreateNoteProvider>(
+              builder: (context, value, child) {
+                return value.uploadedImg == null
+                    ? const Text(
+                  CustomString.selectTxt,
+                  style: TextStyle(color: CustomColor.textHintColor),
+                )
+                    : Text(value.currentImagePath());
+              },
+            ),
+            20.verticalSpace,
+            //IMAGE AND CLEAR BUTTON
+            Consumer<CreateNoteProvider>(
+              builder: (context, value, child) {
+                return value.isUploaded == true
+                    ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SelectImageButton(
+                      isChangeColor: value.isUploaded,
+                      onPressed: () =>
+                          value.showOptions(context: context),
+                    ),
+                    deleteImageButton(onPressed: () {
+                      value.deleteImage();
+                    })
+                  ],
+                )
+                    : const SizedBox();
+              },
+            ),
             KTitleField(controller: TextEditingController(text: widget.note.title)),
             AppConstant.kDefaultGap,
             KDescriptionField(controller: TextEditingController(text: widget.note.description)),
-            const SizedBox(
-              height: 50,
-            ),
-            SaveButton(
-              onPressed: () {
-                noteProvider.addNoteFunc(context: context);
-              },
-            ),
 
           ],
         ),

@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:notepad/utils/app_constant.dart';
+import 'package:notepad/utils/custom_string.dart';
 import 'package:provider/provider.dart';
 
 import '../../../routes/custom_router.dart';
@@ -14,16 +16,29 @@ class NoteProvider extends ChangeNotifier {
 
   void addNote(NoteModel noteModel) {
     allNoteList.add(noteModel);
-    log('note====>${allNoteList.toString()}');
+    log('note length====>${allNoteList.length.toString()}');
     notifyListeners();
   }
 
-  void addNoteFunc({required BuildContext context}) {
+  void addNoteFunc({required BuildContext context}) async {
     final createNoteProvider = context.read<CreateNoteProvider>();
-    addNote(NoteModel(
-        title: createNoteProvider.titleCtrl.text,
-        description: createNoteProvider.descCtrl.text,
-        image: File(createNoteProvider.uploadedImg!.path.toString())));
-    CustomRouter.pop(context: context);
+
+    if(createNoteProvider.isUploaded == true){
+      //add note in list
+      addNote(NoteModel(
+          title: createNoteProvider.titleCtrl.text,
+          description: createNoteProvider.descCtrl.text,
+          image: File(createNoteProvider.uploadedImg!.path)
+      ));
+      CustomRouter.pop(context: context);
+      createNoteProvider.clearAllValue();
+    } else{
+      log('empty+++++++');
+      AppConstant.customToast(context: context, message: CustomString.toastButtonAction);
+    }
+
   }
+
+
+
 }

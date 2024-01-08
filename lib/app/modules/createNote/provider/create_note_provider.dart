@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:notepad/app/modules/draft/provider/draft_provider.dart';
 import 'package:notepad/app/routes/custom_router.dart';
+import 'package:notepad/utils/app_constant.dart';
 import 'package:notepad/utils/custom_string.dart';
 import 'package:provider/provider.dart';
 
@@ -82,35 +83,47 @@ class CreateNoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String currentImagePath(){
+    return uploadedImg!.path.split('/').last.toString();
+  }
+
   //APP EXIT DIALOG
   Future<bool> onBackButtonPressed({required BuildContext context}) async {
-    bool exitApp = await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Save draft?'),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  CustomRouter.pushReplacement(context: context, page: NavView());
-                  clearAllValue();
-                },
-                child: const Text('No')),
-            TextButton(
-                onPressed: () {
-                  context.read<DraftProvider>().addDraftFunc(context: context);
-                  CustomRouter.pushReplacement(context: context, page: NavView());
-                  clearAllValue();
-                },
+    final createNoteProvider = context.read<CreateNoteProvider>();
+      bool exitApp = await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(CustomString.saveDraftTxt),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    CustomRouter.pushReplacement(context: context, page: const NavView());
+                    clearAllValue();
+                  },
+                  child: Text(CustomString.noTxt)),
+              TextButton(
+                  onPressed: () {
+                    if(createNoteProvider.isUploaded == true){
+                      context.read<DraftProvider>().addDraftFunc(context: context);
+                      CustomRouter.pushReplacement(context: context, page: const NavView());
+                      clearAllValue();
+                    } else{
+                      CustomRouter.pop(context: context);
+                      AppConstant.customToast(context: context, message: CustomString.toastButtonAction);
 
-                child: const Text('Yes')),
+                    }
+                  },
 
-          ],
-        );
-      },
-    );
+                  child: Text(CustomString.yesTxt)),
 
-    return exitApp;
+            ],
+          );
+        },
+      );
+      return exitApp;
+
+
   }
 
 }

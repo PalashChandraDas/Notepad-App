@@ -5,7 +5,8 @@ class CustomString{
   static const String descriptionHint = 'Note something down';
   static const String gallery = 'Gallery';
   static const String camera = 'Camera';
-  static const String selectTxt = 'Please select image';
+  static const String selectTxt = 'upload image';
+  static const String saveBtnTitle = 'Save';
 
   //nav
   static const String note = 'Note';
@@ -18,4 +19,16 @@ class CustomString{
 
   //draft
   static String editDraftTitle = 'Edit Draft';
+
+  //error
+  static String imgErrorTxt = 'Image error !!!';
+  static String toastButtonAction = 'Image required !!';
+  static String requiredTxt = '';
+
+  //dialog
+  static String saveDraftTxt = 'Save draft?';
+  static String noTxt = 'No';
+  static String yesTxt = 'Yes';
+
+
 }

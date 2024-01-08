@@ -5,10 +5,14 @@ import 'package:notepad/app/routes/custom_router.dart';
 import 'package:provider/provider.dart';
 
 
-class DraftView extends StatelessWidget {
+class DraftView extends StatefulWidget {
   const DraftView({super.key,});
 
+  @override
+  State<DraftView> createState() => _DraftViewState();
+}
 
+class _DraftViewState extends State<DraftView> {
   @override
   Widget build(BuildContext context) {
     // final draftProvider = context.read<DraftProvider>();

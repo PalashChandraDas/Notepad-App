@@ -29,7 +29,7 @@ class DraftProvider extends ChangeNotifier{
   void deleteDraft(int index){
     allDraftList.removeAt(index);
 
-    log(allDraftList.toString());
+    log('d length===>${allDraftList.length.toString()}');
     notifyListeners();
   }
 

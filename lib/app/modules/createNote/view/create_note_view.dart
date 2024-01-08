@@ -1,15 +1,16 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:notepad/app/modules/createNote/widgets/save_button.dart';
-import 'package:notepad/app/modules/createNote/widgets/select_gallery_widget.dart';
-import 'package:notepad/app/modules/draft/provider/draft_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:notepad/utils/custom_color.dart';
+import 'package:notepad/widgets/save_button.dart';
 import 'package:notepad/utils/app_constant.dart';
 import 'package:notepad/utils/custom_string.dart';
 import 'package:notepad/widgets/k_description_field.dart';
 import 'package:notepad/widgets/k_title_field.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../widgets/delete_image_button.dart';
+import '../../../../widgets/k_image_file.dart';
+import '../../../../widgets/select_img_button.dart';
 import '../../note/provider/note_provider.dart';
 import '../provider/create_note_provider.dart';
 
@@ -17,75 +18,78 @@ class CreateNoteView extends StatelessWidget {
   const CreateNoteView({super.key});
   @override
   Widget build(BuildContext context) {
-    // final createNoteProvider = Provider.of<CreateNoteProvider>(context, listen: false);
+    //declare instance
     final createNoteProvider = context.read<CreateNoteProvider>();
-    final draftProvider = context.read<DraftProvider>();
     final noteProvider = context.read<NoteProvider>();
 
     return WillPopScope(
       onWillPop: () async {
-        //send data to draft list
-        return createNoteProvider.onBackButtonPressed(context: context);
+       return createNoteProvider.onBackButtonPressed(context: context);
       },
       child: Scaffold(
         appBar: AppBar(
           title: const Text(CustomString.createNoteTitle),
+          actions: [
+            SaveButton(
+              onPressed: () {
+                noteProvider.addNoteFunc(context: context);
+              },
+            ),
+          ],
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20.w),
           child: Column(
             children: [
+              //UPLOADED IMAGE
+              Consumer<CreateNoteProvider>(
+                builder: (_, value, child) {
+                  return value.uploadedImg == null
+                      ? SelectImageButton(
+                          isIconSize: true,
+                          isChangeColor: value.isUploaded,
+                          onPressed: () => value.showOptions(context: context),
+                        )
+                      : KImageFile(
+                          imageFile: value.uploadedImg!,
+                        );
+                },
+              ),
+              //IMAGE PATH
               Consumer<CreateNoteProvider>(
                 builder: (context, value, child) {
                   return value.uploadedImg == null
-                      ? const SizedBox()
-                      : SizedBox(
-                          height: 200, child: Image.file(value.uploadedImg!));
+                      ? const Text(
+                          CustomString.selectTxt,
+                          style: TextStyle(color: CustomColor.textHintColor),
+                        )
+                      : Text(value.currentImagePath());
                 },
               ),
+              20.verticalSpace,
+              //IMAGE AND CLEAR BUTTON
               Consumer<CreateNoteProvider>(
                 builder: (context, value, child) {
-                  return value.uploadedImg == null
-                      ? const SizedBox()
-                      : Text(
-                          value.uploadedImg!.path.split('/').last.toString());
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Consumer<CreateNoteProvider>(
-                builder: (context, value, child) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SelectGalleryWidget(
-                        isChangeColor: value.isUploaded,
-                        onPressed: () => value.showOptions(context: context),
-                      ),
-                      value.isUploaded
-                          ? IconButton(
-                              onPressed: () {
-                                value.deleteImage();
-                              },
-                              icon: const Icon(Icons.clear))
-                          : const SizedBox()
-                    ],
-                  );
+                  return value.isUploaded == true
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SelectImageButton(
+                              isChangeColor: value.isUploaded,
+                              onPressed: () =>
+                                  value.showOptions(context: context),
+                            ),
+                            deleteImageButton(onPressed: () {
+                              value.deleteImage();
+                            })
+                          ],
+                        )
+                      : const SizedBox();
                 },
               ),
               KTitleField(controller: createNoteProvider.titleCtrl),
               AppConstant.kDefaultGap,
               KDescriptionField(controller: createNoteProvider.descCtrl),
-              const SizedBox(
-                height: 50,
-              ),
-              SaveButton(
-                onPressed: () {
-                  noteProvider.addNoteFunc(context: context);
-                  createNoteProvider.clearAllValue();
-                },
-              ),
             ],
           ),
         ),
