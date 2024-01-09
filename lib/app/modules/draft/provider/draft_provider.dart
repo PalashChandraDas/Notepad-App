@@ -12,8 +12,8 @@ class DraftProvider extends ChangeNotifier{
   List<NoteModel> get allDraftList => _draftList;
 
   void addDraft(NoteModel draftModel){
-    allDraftList.add(draftModel);
-    log(allDraftList.toString());
+    _draftList.add(draftModel);
+    log(_draftList.toString());
     notifyListeners();
   }
 

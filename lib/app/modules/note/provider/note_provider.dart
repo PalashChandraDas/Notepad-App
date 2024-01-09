@@ -15,8 +15,8 @@ class NoteProvider extends ChangeNotifier {
   List<NoteModel> get allNoteList => _noteList;
 
   void addNote(NoteModel noteModel) {
-    allNoteList.add(noteModel);
-    log('note length====>${allNoteList.length.toString()}');
+    _noteList.add(noteModel);
+    log('note length====>${_noteList.length.toString()}');
     notifyListeners();
   }
 
@@ -44,8 +44,8 @@ class NoteProvider extends ChangeNotifier {
 
 
   void editNote({required NoteModel noteModel, required int index}){
-    allNoteList[index] = noteModel;
-    log('EditNot===> length: ${allNoteList.toString()}');
+    _noteList[index] = noteModel;
+    log('EditNot===> length: ${_noteList.toString()}');
     notifyListeners();
   }
 
@@ -72,9 +72,9 @@ class NoteProvider extends ChangeNotifier {
 
 
   void deleteNote(int index){
-    allNoteList.removeAt(index);
+    _noteList.removeAt(index);
 
-    log('d length===>${allNoteList.length.toString()}');
+    log('d length===>${_noteList.length.toString()}');
     notifyListeners();
   }
 
