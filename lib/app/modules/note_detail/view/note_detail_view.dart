@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:notepad/app/modules/draft/model/draft_model.dart';
 import 'package:notepad/app/modules/note_detail/widgets/k_heading.dart';
 import 'package:notepad/utils/app_constant.dart';
 import 'package:notepad/utils/custom_string.dart';
+
+import '../../note/model/note_model.dart';
 
 class NoteDetail extends StatefulWidget {
   const NoteDetail({super.key, required this.note});

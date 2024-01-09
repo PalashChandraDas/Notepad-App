@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:notepad/utils/custom_color.dart';
@@ -16,6 +17,8 @@ import '../provider/create_note_provider.dart';
 
 class CreateNoteView extends StatelessWidget {
   const CreateNoteView({super.key});
+
+
   @override
   Widget build(BuildContext context) {
     //declare instance

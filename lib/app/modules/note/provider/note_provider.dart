@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../../routes/custom_router.dart';
 import '../../createNote/provider/create_note_provider.dart';
-import '../../draft/model/draft_model.dart';
+import '../model/note_model.dart';
 
 class NoteProvider extends ChangeNotifier {
   final List<NoteModel> _noteList = [];
@@ -41,6 +41,7 @@ class NoteProvider extends ChangeNotifier {
     }
 
   }
+
 
   void editNote({required NoteModel noteModel, required int index}){
     allNoteList[index] = noteModel;

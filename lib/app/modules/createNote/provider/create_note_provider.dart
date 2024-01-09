@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:notepad/app/modules/draft/provider/draft_provider.dart';
 import 'package:notepad/app/routes/custom_router.dart';
@@ -18,6 +19,7 @@ class CreateNoteProvider extends ChangeNotifier {
   File? uploadedImg;
   final picker = ImagePicker();
   bool isUploaded = false;
+
 
   clearAllController() {
     titleCtrl.clear();

@@ -11,7 +11,9 @@ import 'package:provider/provider.dart';
 import 'app/modules/nav/view/nav_view.dart';
 import 'app/modules/note/provider/note_provider.dart';
 
+
 void main() {
+
   runApp(
     MultiProvider(
       providers: [

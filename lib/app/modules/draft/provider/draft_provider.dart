@@ -2,10 +2,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:notepad/app/modules/draft/model/draft_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../createNote/provider/create_note_provider.dart';
+import '../../note/model/note_model.dart';
 
 class DraftProvider extends ChangeNotifier{
   final List<NoteModel> _draftList = [];
